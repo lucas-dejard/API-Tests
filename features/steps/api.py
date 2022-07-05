@@ -3,7 +3,6 @@ from behave import then, when, given
 from json import load
 from ast import literal_eval
 
-url_base = 'http://localhost:5000/todos/api/tasks'
 
 @given('que exista uma tarefa')
 def inserir_tarefa(context):
@@ -13,11 +12,11 @@ def inserir_tarefa(context):
     tarefa['description'] = feature_table['descrição']
     tarefa['done'] = feature_table['estado']
 
-    assert post(url_base, json=tarefa).status_code == 201
+    assert post(context.base_url, json=tarefa).status_code == 201
 
 @when('verificar minhas tarefas em "{endpoint}"')
 def pegando_minhas_tarefas(context, endpoint):
-    context.request = get(url_base)
+    context.request = get(context.base_url)
 
 @then('não devo ter tarefas para fazer')
 def checando_se_nao_tem_tarefa(context):
